@@ -8,7 +8,7 @@
 
 import UIKit
 
-class CoinViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate {
+class CoinViewController: UIViewController{
     
     @IBOutlet weak var bitcoinLabel: UILabel!
     @IBOutlet weak var currencyLabel: UILabel!
@@ -18,30 +18,33 @@ class CoinViewController: UIViewController, UIPickerViewDataSource, UIPickerView
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
         currencyPicker.dataSource = self
         currencyPicker.delegate = self
         coinManager.delegate = self
     }
-
-    func numberOfComponents(in pickerView: UIPickerView) -> Int { // определяет количество столбцов
-         return 1
-     }
-    
-     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return coinManager.currencyArray.count
-     }// возвращает кол-во строк для столбцов
-    
-    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return coinManager.currencyArray[row]
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        let selectedCurrency = coinManager.currencyArray[row]
-        coinManager.getCoinPrice(for: selectedCurrency)
-    }
-
 }
+
+//MARK: - UIPickerViewDataSource, UIPickerViewDelegate
+
+extension CoinViewController: UIPickerViewDataSource, UIPickerViewDelegate{
+    func numberOfComponents(in pickerView: UIPickerView) -> Int { // определяет количество столбцов
+           return 1
+       }
+      
+       func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+          return coinManager.currencyArray.count
+       }// возвращает кол-во строк для столбцов
+      
+      func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+          return coinManager.currencyArray[row]
+      }
+      
+      func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+          let selectedCurrency = coinManager.currencyArray[row]
+          coinManager.getCoinPrice(for: selectedCurrency)
+      }
+}
+
 
 //MARK: - CoinManagerDelegate
 
